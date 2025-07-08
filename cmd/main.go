@@ -6,6 +6,7 @@ import (
 	"fmt"
 	v1 "github.com/Bermos/Platform/internal/api/v1"
 	"github.com/Bermos/Platform/internal/app"
+	"github.com/Bermos/Platform/internal/config"
 	"github.com/danielgtaylor/huma/v2"
 	"github.com/danielgtaylor/huma/v2/adapters/humago"
 	"github.com/danielgtaylor/huma/v2/humacli"
@@ -15,12 +16,6 @@ import (
 	"time"
 )
 
-type Options struct {
-	Debug bool   `doc:"Enable debug logging"`
-	Host  string `doc:"Hostname to listen on."`
-	Port  int    `doc:"Port to listen on." short:"p" default:"8080"`
-}
-
 func main() {
 	mux := http.NewServeMux()
 	api := humago.New(mux, huma.DefaultConfig("Platform", "1.0.0"))
@@ -29,7 +24,7 @@ func main() {
 	v1.Register(api, a)
 
 	// Then, create the CLI.
-	cli := humacli.New(func(hooks humacli.Hooks, opts *Options) {
+	cli := humacli.New(func(hooks humacli.Hooks, opts *config.Options) {
 		fmt.Printf("I was run with debug:%v host:%v port%v\n",
 			opts.Debug, opts.Host, opts.Port)
 

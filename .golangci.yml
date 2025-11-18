@@ -1,9 +1,6 @@
-version: 2
-
 run:
   timeout: 5m
   tests: true
-  modules-download-mode: readonly
 
 linters:
   enable:
@@ -37,7 +34,8 @@ linters-settings:
     min-complexity: 15
 
   govet:
-    check-shadowing: true
+    enable:
+      - shadow
 
   misspell:
     locale: US
@@ -108,14 +106,3 @@ issues:
 
   # Maximum count of issues with the same text
   max-same-issues: 0
-
-  # Show all issues
-  new: false
-
-output:
-  formats:
-    colored-line-number:
-      path: stdout
-  print-issued-lines: true
-  print-linter-name: true
-  uniq-by-line: true

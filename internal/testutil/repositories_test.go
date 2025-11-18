@@ -250,6 +250,15 @@ func TestMockServiceRepository_Get(t *testing.T) {
 		_, err := repo.Get(ctx, uuid.New())
 		AssertError(t, err, "should return error for nonexistent service")
 	})
+
+	t.Run("returns_error_when_configured", func(t *testing.T) {
+		repo := NewMockServiceRepository()
+		repo.GetError = errors.New("simulated error")
+		ctx := context.Background()
+
+		_, err := repo.Get(ctx, uuid.New())
+		AssertError(t, err, "should return configured error")
+	})
 }
 
 func TestMockServiceRepository_Update(t *testing.T) {
@@ -278,6 +287,16 @@ func TestMockServiceRepository_Update(t *testing.T) {
 		err := repo.Update(ctx, svc)
 		AssertError(t, err, "should return error for nonexistent service")
 	})
+
+	t.Run("returns_error_when_configured", func(t *testing.T) {
+		repo := NewMockServiceRepository()
+		repo.UpdateError = errors.New("simulated error")
+		ctx := context.Background()
+		svc := NewTestService()
+
+		err := repo.Update(ctx, svc)
+		AssertError(t, err, "should return configured error")
+	})
 }
 
 func TestMockServiceRepository_Delete(t *testing.T) {
@@ -294,6 +313,23 @@ func TestMockServiceRepository_Delete(t *testing.T) {
 
 		_, err = repo.Get(ctx, svc.ID)
 		AssertError(t, err, "get should fail after delete")
+	})
+
+	t.Run("fails_for_nonexistent_service", func(t *testing.T) {
+		repo := NewMockServiceRepository()
+		ctx := context.Background()
+
+		err := repo.Delete(ctx, uuid.New())
+		AssertError(t, err, "should return error for nonexistent service")
+	})
+
+	t.Run("returns_error_when_configured", func(t *testing.T) {
+		repo := NewMockServiceRepository()
+		repo.DeleteError = errors.New("simulated error")
+		ctx := context.Background()
+
+		err := repo.Delete(ctx, uuid.New())
+		AssertError(t, err, "should return configured error")
 	})
 }
 
@@ -325,5 +361,14 @@ func TestMockServiceRepository_ListByProject(t *testing.T) {
 		AssertNoError(t, err, "list should succeed")
 		AssertNotNil(t, services, "services should not be nil")
 		AssertEqual(t, len(services), 0, "should return empty list")
+	})
+
+	t.Run("returns_error_when_configured", func(t *testing.T) {
+		repo := NewMockServiceRepository()
+		repo.ListByProjectError = errors.New("simulated error")
+		ctx := context.Background()
+
+		_, err := repo.ListByProject(ctx, uuid.New())
+		AssertError(t, err, "should return configured error")
 	})
 }

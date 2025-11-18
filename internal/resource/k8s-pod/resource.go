@@ -30,11 +30,11 @@ func (p *Pod) Price(interval time.Duration) float64 {
 }
 
 func (p *Pod) MetricsCPU() string {
-	//TODO implement me
-	panic("implement me")
+	//TODO: implement actual Prometheus query for CPU metrics
+	return "container_cpu_usage_seconds_total"
 }
 
 func (p *Pod) MetricsMemory() string {
-	//TODO implement me
-	panic("implement me")
+	//TODO: implement actual Prometheus query for memory metrics
+	return "container_memory_usage_bytes"
 }

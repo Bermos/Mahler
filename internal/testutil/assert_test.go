@@ -86,6 +86,16 @@ func TestAssertNil(t *testing.T) {
 			t.Error("AssertNil should call Errorf for non-nil slice")
 		}
 	})
+
+	t.Run("non_nilable_value_fails", func(t *testing.T) {
+		mock := &mockT{}
+		// Pass a non-pointer, non-interface value (int, string, etc.)
+		// These cannot be nil, so AssertNil should fail
+		AssertNil(mock, 42, "test message")
+		if !mock.errorCalled {
+			t.Error("AssertNil should call Errorf for non-nilable values")
+		}
+	})
 }
 
 func TestAssertNotNil(t *testing.T) {

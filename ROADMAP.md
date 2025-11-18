@@ -55,7 +55,7 @@
   - **Deliverable:** Script that fails if coverage < 95% (Go) or < 80% (Vue)
   - **Tests:** Run script on current codebase
 
-- [ ] **0.1.4** Create mock infrastructure
+- [x] **0.1.4** Create mock infrastructure
   - Implement mock repository interfaces
   - Create test fixtures and data builders
   - **Deliverable:** `internal/testutil` package with mocks

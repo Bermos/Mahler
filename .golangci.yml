@@ -1,0 +1,121 @@
+version: 2
+
+run:
+  timeout: 5m
+  tests: true
+  modules-download-mode: readonly
+
+linters:
+  enable:
+    # Enabled by default
+    - errcheck      # Check for unchecked errors
+    - govet         # Vet examines Go source code
+    - ineffassign   # Detect ineffectual assignments
+    - staticcheck   # Static analysis
+    - unused        # Check for unused code
+
+    # Additional recommended linters
+    - gosec         # Security-focused linter
+    - misspell      # Check for commonly misspelled words
+    - revive        # Fast, configurable linter
+    - unconvert     # Remove unnecessary type conversions
+    - unparam       # Report unused function parameters
+    - gocyclo       # Check cyclomatic complexity
+    - dupl          # Check for code duplication
+    - goconst       # Find repeated strings that could be constants
+    - bodyclose     # Check for unclosed HTTP response bodies
+    - noctx         # Check for sending http request without context.Context
+    - sqlclosecheck # Check for unclosed sql rows/statements
+    - gocritic      # Provides diagnostics for bugs, performance, and style
+    - errorlint     # Find problems with error wrapping
+    - predeclared   # Find code that shadows predeclared identifiers
+    - whitespace    # Check for unnecessary whitespace
+    - prealloc      # Find slice declarations that could be preallocated
+
+linters-settings:
+  gocyclo:
+    min-complexity: 15
+
+  govet:
+    check-shadowing: true
+
+  misspell:
+    locale: US
+
+  revive:
+    rules:
+      - name: exported
+        severity: warning
+        disabled: false
+      - name: package-comments
+        severity: warning
+        disabled: false
+      - name: var-naming
+        severity: warning
+        disabled: false
+      - name: context-as-argument
+        severity: warning
+        disabled: false
+      - name: error-return
+        severity: warning
+        disabled: false
+      - name: error-strings
+        severity: warning
+        disabled: false
+      - name: receiver-naming
+        severity: warning
+        disabled: false
+      - name: increment-decrement
+        severity: warning
+        disabled: false
+      - name: error-naming
+        severity: warning
+        disabled: false
+
+  gosec:
+    excludes:
+      - G104  # Allow some unhandled errors (overlap with errcheck)
+
+issues:
+  exclude-rules:
+    # Exclude some linters from running on test files
+    - path: _test\.go$
+      linters:
+        - gocyclo
+        - dupl
+        - gosec
+        - goconst
+        - errcheck
+        - revive
+        - staticcheck
+
+    # Exclude testutil package from strict linting (mocks don't need comments)
+    - path: internal/testutil/.*\.go$
+      linters:
+        - dupl
+        - revive
+        - unparam
+        - gocritic
+
+    # Exclude main.go from requiring package comments
+    - path: cmd/.*\.go$
+      linters:
+        - revive
+      text: "package-comments"
+
+  # Maximum issues count per one linter
+  max-issues-per-linter: 0
+
+  # Maximum count of issues with the same text
+  max-same-issues: 0
+
+  # Show all issues
+  new: false
+
+output:
+  formats:
+    colored-line-number:
+      path: stdout
+  print-issued-lines: true
+  print-linter-name: true
+  uniq-by-line: true

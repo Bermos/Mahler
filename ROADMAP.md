@@ -72,7 +72,7 @@
   - **Deliverable:** `.github/workflows/ci.yml` with test jobs
   - **Tests:** Trigger workflow, verify it runs and reports coverage
 
-- [ ] **0.2.2** Create GitHub Actions workflow - Lint job
+- [x] **0.2.2** Create GitHub Actions workflow - Lint job
   - Configure `golangci-lint` with config file
   - Set up ESLint for Vue.js
   - Add formatting checks (gofmt, prettier)

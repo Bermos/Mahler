@@ -1,19 +1,23 @@
 <template>
-  <div class="canvas-container"
-       @mousedown="startPan"
-       @mousemove="pan"
-       @mouseup="stopPan"
-       @wheel="handleZoom">
+  <div
+    class="canvas-container"
+    @mousedown="startPan"
+    @mousemove="pan"
+    @mouseup="stopPan"
+    @wheel="handleZoom"
+  >
     <div class="canvas" :style="transformStyle">
       <!-- Dot grid background -->
-      <div class="dot-grid"></div>
+      <div class="dot-grid" />
 
       <!-- Service cards -->
-      <div v-for="(service, index) in services"
-           :key="index"
-           class="service-card"
-           :style="{ left: service.x + 'px', top: service.y + 'px' }"
-           @mousedown.stop="startDrag($event, index)">
+      <div
+        v-for="(service, index) in services"
+        :key="index"
+        class="service-card"
+        :style="{ left: service.x + 'px', top: service.y + 'px' }"
+        @mousedown.stop="startDrag($event, index)"
+      >
         <div class="service-icon" :class="service.type">
           <component :is="service.icon" />
         </div>
@@ -21,21 +25,21 @@
           <h3>{{ service.name }}</h3>
           <p class="service-url">{{ service.url }}</p>
           <div class="status">
-            <div class="status-icon"></div>
+            <div class="status-icon" />
             {{ service.status }}
           </div>
-          <div v-if="service.replicas" class="replicas">
-            {{ service.replicas }} Replicas
-          </div>
+          <div v-if="service.replicas" class="replicas">{{ service.replicas }} Replicas</div>
         </div>
       </div>
 
       <!-- Connection lines -->
       <svg class="connections">
-        <path v-for="(connection, index) in connections"
-              :key="index"
-              :d="calculatePath(connection)"
-              class="connection-line" />
+        <path
+          v-for="(connection, index) in connections"
+          :key="index"
+          :d="calculatePath(connection)"
+          class="connection-line"
+        />
       </svg>
     </div>
   </div>
@@ -60,7 +64,7 @@ const services = ref([
     status: 'Deployed just now',
     icon: Globe,
     x: 400,
-    y: 200
+    y: 200,
   },
   {
     name: 'backend',
@@ -70,7 +74,7 @@ const services = ref([
     replicas: '3 Replicas',
     icon: Server,
     x: 700,
-    y: 200
+    y: 200,
   },
   {
     name: 'ackee analytics',
@@ -79,7 +83,7 @@ const services = ref([
     status: 'Deployed via Docker Image',
     icon: Box,
     x: 200,
-    y: 400
+    y: 400,
   },
   {
     name: 'api gateway',
@@ -88,7 +92,7 @@ const services = ref([
     status: 'Deployed just now',
     icon: Globe,
     x: 400,
-    y: 500
+    y: 500,
   },
   {
     name: 'postgres',
@@ -97,19 +101,19 @@ const services = ref([
     status: 'Deployed via Docker Image',
     icon: Database,
     x: 700,
-    y: 500
-  }
+    y: 500,
+  },
 ])
 
 const connections = ref([
   { from: 0, to: 3 },
   { from: 3, to: 1 },
   { from: 1, to: 4 },
-  { from: 2, to: 3 }
+  { from: 2, to: 3 },
 ])
 
 const transformStyle = computed(() => ({
-  transform: `translate(${position.value.x}px, ${position.value.y}px) scale(${scale.value})`
+  transform: `translate(${position.value.x}px, ${position.value.y}px) scale(${scale.value})`,
 }))
 
 function startDrag(event, index) {
@@ -117,7 +121,7 @@ function startDrag(event, index) {
   draggedService.value = index
   startPos.value = {
     x: event.clientX - services.value[index].x,
-    y: event.clientY - services.value[index].y
+    y: event.clientY - services.value[index].y,
   }
 }
 
@@ -126,7 +130,7 @@ function startPan(event) {
     isPanning.value = true
     startPos.value = {
       x: event.clientX - position.value.x,
-      y: event.clientY - position.value.y
+      y: event.clientY - position.value.y,
     }
   }
 }
@@ -140,7 +144,7 @@ function pan(event) {
   } else if (isPanning.value) {
     position.value = {
       x: event.clientX - startPos.value.x,
-      y: event.clientY - startPos.value.y
+      y: event.clientY - startPos.value.y,
     }
   }
 }
@@ -168,11 +172,11 @@ function calculatePath(connection) {
   // Calculate center points
   const fromCenter = {
     x: from.x + cardWidth / 2,
-    y: from.y + cardHeight / 2
+    y: from.y + cardHeight / 2,
   }
   const toCenter = {
     x: to.x + cardWidth / 2,
-    y: to.y + cardHeight / 2
+    y: to.y + cardHeight / 2,
   }
 
   // Determine which sides to connect based on relative positions
@@ -202,19 +206,31 @@ function calculatePath(connection) {
   // Calculate middle points for the orthogonal path
   const midPoint = {
     x: startPoint.x + (endPoint.x - startPoint.x) / 2,
-    y: startPoint.y + (endPoint.y - startPoint.y) / 2
+    y: startPoint.y + (endPoint.y - startPoint.y) / 2,
   }
 
   // Create path with right angles
   return `M ${startPoint.x} ${startPoint.y}
-          L ${Math.abs(toCenter.x - fromCenter.x) > Math.abs(toCenter.y - fromCenter.y) ?
-      midPoint.x : startPoint.x}
-            ${Math.abs(toCenter.x - fromCenter.x) > Math.abs(toCenter.y - fromCenter.y) ?
-      startPoint.y : midPoint.y}
-          L ${Math.abs(toCenter.x - fromCenter.x) > Math.abs(toCenter.y - fromCenter.y) ?
-      midPoint.x : endPoint.x}
-            ${Math.abs(toCenter.x - fromCenter.x) > Math.abs(toCenter.y - fromCenter.y) ?
-      endPoint.y : midPoint.y}
+          L ${
+            Math.abs(toCenter.x - fromCenter.x) > Math.abs(toCenter.y - fromCenter.y)
+              ? midPoint.x
+              : startPoint.x
+          }
+            ${
+              Math.abs(toCenter.x - fromCenter.x) > Math.abs(toCenter.y - fromCenter.y)
+                ? startPoint.y
+                : midPoint.y
+            }
+          L ${
+            Math.abs(toCenter.x - fromCenter.x) > Math.abs(toCenter.y - fromCenter.y)
+              ? midPoint.x
+              : endPoint.x
+          }
+            ${
+              Math.abs(toCenter.x - fromCenter.x) > Math.abs(toCenter.y - fromCenter.y)
+                ? endPoint.y
+                : midPoint.y
+            }
           L ${endPoint.x} ${endPoint.y}`
 }
 </script>
@@ -241,7 +257,7 @@ function calculatePath(connection) {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
@@ -272,11 +288,21 @@ function calculatePath(connection) {
   margin-bottom: 12px;
 }
 
-.service-icon.js { background: #f7df1e; }
-.service-icon.python { background: #3776ab; }
-.service-icon.analytics { background: #00bcd4; }
-.service-icon.api { background: #4caf50; }
-.service-icon.db { background: #2196f3; }
+.service-icon.js {
+  background: #f7df1e;
+}
+.service-icon.python {
+  background: #3776ab;
+}
+.service-icon.analytics {
+  background: #00bcd4;
+}
+.service-icon.api {
+  background: #4caf50;
+}
+.service-icon.db {
+  background: #2196f3;
+}
 
 .service-content h3 {
   margin: 0;

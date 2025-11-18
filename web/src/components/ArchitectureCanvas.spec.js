@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import ArchitectureCanvas from './ArchitectureCanvas.vue'
 
@@ -116,7 +116,7 @@ describe('ArchitectureCanvas', () => {
       // Move mouse
       await wrapper.find('.canvas-container').trigger('mousemove', {
         clientX: 500,
-        clientY: 300
+        clientY: 300,
       })
 
       // Position should change
@@ -130,7 +130,7 @@ describe('ArchitectureCanvas', () => {
       await firstCard.trigger('mousedown', { clientX: 450, clientY: 250 })
       await wrapper.find('.canvas-container').trigger('mousemove', {
         clientX: 465,
-        clientY: 275
+        clientY: 275,
       })
 
       // Should snap to 40px grid
@@ -154,7 +154,7 @@ describe('ArchitectureCanvas', () => {
     it('starts panning on canvas mousedown when not dragging', async () => {
       await wrapper.find('.canvas-container').trigger('mousedown', {
         clientX: 100,
-        clientY: 100
+        clientY: 100,
       })
 
       expect(wrapper.vm.isPanning).toBe(true)
@@ -166,7 +166,7 @@ describe('ArchitectureCanvas', () => {
 
       await wrapper.find('.canvas-container').trigger('mousedown', {
         clientX: 100,
-        clientY: 100
+        clientY: 100,
       })
 
       // Should still be dragging, not panning
@@ -177,12 +177,12 @@ describe('ArchitectureCanvas', () => {
     it('pans the canvas', async () => {
       await wrapper.find('.canvas-container').trigger('mousedown', {
         clientX: 100,
-        clientY: 100
+        clientY: 100,
       })
 
       await wrapper.find('.canvas-container').trigger('mousemove', {
         clientX: 200,
-        clientY: 200
+        clientY: 200,
       })
 
       expect(wrapper.vm.position.x).toBe(100)
@@ -192,7 +192,7 @@ describe('ArchitectureCanvas', () => {
     it('stops panning on mouseup', async () => {
       await wrapper.find('.canvas-container').trigger('mousedown', {
         clientX: 100,
-        clientY: 100
+        clientY: 100,
       })
       expect(wrapper.vm.isPanning).toBe(true)
 
@@ -206,7 +206,7 @@ describe('ArchitectureCanvas', () => {
 
       await wrapper.find('.canvas-container').trigger('wheel', {
         deltaY: -100,
-        preventDefault: () => {}
+        preventDefault: () => {},
       })
 
       expect(wrapper.vm.scale).toBeGreaterThan(initialScale)
@@ -217,7 +217,7 @@ describe('ArchitectureCanvas', () => {
 
       await wrapper.find('.canvas-container').trigger('wheel', {
         deltaY: 100,
-        preventDefault: () => {}
+        preventDefault: () => {},
       })
 
       expect(wrapper.vm.scale).toBeLessThan(initialScale)
@@ -228,7 +228,7 @@ describe('ArchitectureCanvas', () => {
       for (let i = 0; i < 20; i++) {
         await wrapper.find('.canvas-container').trigger('wheel', {
           deltaY: 100,
-          preventDefault: () => {}
+          preventDefault: () => {},
         })
       }
 
@@ -240,7 +240,7 @@ describe('ArchitectureCanvas', () => {
       for (let i = 0; i < 20; i++) {
         await wrapper.find('.canvas-container').trigger('wheel', {
           deltaY: -100,
-          preventDefault: () => {}
+          preventDefault: () => {},
         })
       }
 
@@ -252,11 +252,11 @@ describe('ArchitectureCanvas', () => {
     it('updates transform style when position changes', async () => {
       await wrapper.find('.canvas-container').trigger('mousedown', {
         clientX: 0,
-        clientY: 0
+        clientY: 0,
       })
       await wrapper.find('.canvas-container').trigger('mousemove', {
         clientX: 50,
-        clientY: 50
+        clientY: 50,
       })
 
       const canvas = wrapper.find('.canvas')
@@ -266,7 +266,7 @@ describe('ArchitectureCanvas', () => {
     it('updates transform style when scale changes', async () => {
       await wrapper.find('.canvas-container').trigger('wheel', {
         deltaY: -100,
-        preventDefault: () => {}
+        preventDefault: () => {},
       })
 
       const canvas = wrapper.find('.canvas')

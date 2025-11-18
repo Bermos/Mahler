@@ -1,0 +1,111 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`App > matches snapshot 1`] = `
+"<div data-v-cd2baaff="" class="canvas-container">
+  <div data-v-cd2baaff="" class="canvas" style="transform: translate(0px, 0px) scale(1);">
+    <!-- Dot grid background -->
+    <div data-v-cd2baaff="" class="dot-grid"></div><!-- Service cards -->
+    <div data-v-cd2baaff="" class="service-card" style="left: 400px; top: 200px;">
+      <div data-v-cd2baaff="" class="service-icon js"><svg data-v-cd2baaff="" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe-icon">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+          <path d="M2 12h20"></path>
+        </svg></div>
+      <div data-v-cd2baaff="" class="service-content">
+        <h3 data-v-cd2baaff="">frontend</h3>
+        <p data-v-cd2baaff="" class="service-url">frontend-prod.up.railway.app</p>
+        <div data-v-cd2baaff="" class="status">
+          <div data-v-cd2baaff="" class="status-icon"></div> Deployed just now
+        </div>
+        <!--v-if-->
+      </div>
+    </div>
+    <div data-v-cd2baaff="" class="service-card" style="left: 700px; top: 200px;">
+      <div data-v-cd2baaff="" class="service-icon python"><svg data-v-cd2baaff="" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server-icon">
+          <rect width="20" height="8" x="2" y="2" rx="2" ry="2"></rect>
+          <rect width="20" height="8" x="2" y="14" rx="2" ry="2"></rect>
+          <line x1="6" x2="6.01" y1="6" y2="6"></line>
+          <line x1="6" x2="6.01" y1="18" y2="18"></line>
+        </svg></div>
+      <div data-v-cd2baaff="" class="service-content">
+        <h3 data-v-cd2baaff="">backend</h3>
+        <p data-v-cd2baaff="" class="service-url">backend-prod.up.railway.app</p>
+        <div data-v-cd2baaff="" class="status">
+          <div data-v-cd2baaff="" class="status-icon"></div> Deployed just now
+        </div>
+        <div data-v-cd2baaff="" class="replicas">3 Replicas Replicas </div>
+      </div>
+    </div>
+    <div data-v-cd2baaff="" class="service-card" style="left: 200px; top: 400px;">
+      <div data-v-cd2baaff="" class="service-icon analytics"><svg data-v-cd2baaff="" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-box-icon">
+          <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+          <path d="m3.3 7 8.7 5 8.7-5"></path>
+          <path d="M12 22V12"></path>
+        </svg></div>
+      <div data-v-cd2baaff="" class="service-content">
+        <h3 data-v-cd2baaff="">ackee analytics</h3>
+        <p data-v-cd2baaff="" class="service-url">ackee-prod.up.railway.app</p>
+        <div data-v-cd2baaff="" class="status">
+          <div data-v-cd2baaff="" class="status-icon"></div> Deployed via Docker Image
+        </div>
+        <!--v-if-->
+      </div>
+    </div>
+    <div data-v-cd2baaff="" class="service-card" style="left: 400px; top: 500px;">
+      <div data-v-cd2baaff="" class="service-icon api"><svg data-v-cd2baaff="" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe-icon">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+          <path d="M2 12h20"></path>
+        </svg></div>
+      <div data-v-cd2baaff="" class="service-content">
+        <h3 data-v-cd2baaff="">api gateway</h3>
+        <p data-v-cd2baaff="" class="service-url">api-prod.up.railway.app</p>
+        <div data-v-cd2baaff="" class="status">
+          <div data-v-cd2baaff="" class="status-icon"></div> Deployed just now
+        </div>
+        <!--v-if-->
+      </div>
+    </div>
+    <div data-v-cd2baaff="" class="service-card" style="left: 700px; top: 500px;">
+      <div data-v-cd2baaff="" class="service-icon db"><svg data-v-cd2baaff="" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-database-icon">
+          <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+          <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+          <path d="M3 12A9 3 0 0 0 21 12"></path>
+        </svg></div>
+      <div data-v-cd2baaff="" class="service-content">
+        <h3 data-v-cd2baaff="">postgres</h3>
+        <p data-v-cd2baaff="" class="service-url">pg-data</p>
+        <div data-v-cd2baaff="" class="status">
+          <div data-v-cd2baaff="" class="status-icon"></div> Deployed via Docker Image
+        </div>
+        <!--v-if-->
+      </div>
+    </div><!-- Connection lines --><svg data-v-cd2baaff="" class="connections">
+      <path data-v-cd2baaff="" d="M 550 360
+          L 550
+            430
+          L 550
+            430
+          L 550 500" class="connection-line"></path>
+      <path data-v-cd2baaff="" d="M 550 500
+          L 550
+            430
+          L 850
+            430
+          L 850 360" class="connection-line"></path>
+      <path data-v-cd2baaff="" d="M 850 360
+          L 850
+            430
+          L 850
+            430
+          L 850 500" class="connection-line"></path>
+      <path data-v-cd2baaff="" d="M 500 480
+          L 450
+            480
+          L 450
+            580
+          L 400 580" class="connection-line"></path>
+    </svg>
+  </div>
+</div>"
+`;

@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: mahler-postgres
+    environment:
+      POSTGRES_DB: mahler
+      POSTGRES_USER: mahler
+      POSTGRES_PASSWORD: mahler
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mahler"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mahler-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: mahler-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - mahler-network
+
+  # Prometheus for metrics (optional for local dev)
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: mahler-prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./deployments/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    networks:
+      - mahler-network
+    profiles:
+      - observability
+
+  # Grafana for dashboards (optional for local dev)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: mahler-grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./deployments/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./deployments/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    networks:
+      - mahler-network
+    profiles:
+      - observability
+
+networks:
+  mahler-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  redis-data:
+  prometheus-data:
+  grafana-data:

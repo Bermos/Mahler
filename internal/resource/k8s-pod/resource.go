@@ -30,11 +30,11 @@ func (p *Pod) Price(interval time.Duration) float64 {
 }
 
 func (p *Pod) MetricsCPU() string {
-	//TODO implement me
-	panic("implement me")
+	// TODO: implement proper Kubernetes metrics integration
+	return "container_cpu_usage_seconds_total"
 }
 
 func (p *Pod) MetricsMemory() string {
-	//TODO implement me
-	panic("implement me")
+	// TODO: implement proper Kubernetes metrics integration
+	return "container_memory_working_set_bytes"
 }

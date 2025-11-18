@@ -1,0 +1,167 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test-go:
+    name: Go Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+          cache: true
+
+      - name: Download Go dependencies
+        run: go mod download
+
+      - name: Run Go tests with coverage
+        run: go test -v -race -coverprofile=coverage.out -covermode=atomic ./...
+
+      - name: Generate coverage report
+        run: |
+          go tool cover -func=coverage.out
+          TOTAL_COVERAGE=$(go tool cover -func=coverage.out | grep total | awk '{print $3}' | sed 's/%//')
+          echo "Total Go Coverage: ${TOTAL_COVERAGE}%"
+          echo "GO_COVERAGE=${TOTAL_COVERAGE}" >> $GITHUB_ENV
+
+      - name: Check coverage threshold
+        run: |
+          MIN_COVERAGE=95
+          TOTAL_COVERAGE=$(go tool cover -func=coverage.out | grep total | awk '{print $3}' | sed 's/%//')
+          echo "Checking coverage: ${TOTAL_COVERAGE}% against minimum ${MIN_COVERAGE}%"
+          if (( $(echo "$TOTAL_COVERAGE < $MIN_COVERAGE" | bc -l) )); then
+            echo "❌ FAILED: Go coverage ${TOTAL_COVERAGE}% is below minimum ${MIN_COVERAGE}%"
+            exit 1
+          else
+            echo "✅ PASSED: Go coverage ${TOTAL_COVERAGE}% meets minimum ${MIN_COVERAGE}%"
+          fi
+
+      - name: Upload Go coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: go-coverage
+          path: coverage.out
+          retention-days: 30
+
+      - name: Upload Go coverage to Codecov (optional)
+        uses: codecov/codecov-action@v4
+        if: github.event_name == 'push'
+        with:
+          files: ./coverage.out
+          flags: go
+          name: go-coverage
+        continue-on-error: true
+
+  test-vue:
+    name: Vue Tests
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: web
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Vue tests with coverage
+        run: npm run test:coverage -- --run
+
+      - name: Check coverage threshold
+        run: |
+          MIN_COVERAGE=80
+
+          # Generate coverage summary JSON
+          npm run test:coverage -- --run --reporter=json --outputFile=coverage-summary.json || true
+
+          # Parse coverage from text output (fallback)
+          if [ -f coverage/coverage-summary.json ]; then
+            # Extract line coverage percentage
+            LINES_COVERAGE=$(node -p "
+              const fs = require('fs');
+              const data = JSON.parse(fs.readFileSync('coverage/coverage-summary.json', 'utf8'));
+              data.total.lines.pct;
+            ")
+
+            echo "Vue Line Coverage: ${LINES_COVERAGE}%"
+            echo "Minimum Required: ${MIN_COVERAGE}%"
+
+            if (( $(echo "$LINES_COVERAGE < $MIN_COVERAGE" | bc -l) )); then
+              echo "❌ FAILED: Vue coverage ${LINES_COVERAGE}% is below minimum ${MIN_COVERAGE}%"
+              exit 1
+            else
+              echo "✅ PASSED: Vue coverage ${LINES_COVERAGE}% meets minimum ${MIN_COVERAGE}%"
+            fi
+          else
+            echo "⚠️  Coverage summary not found, skipping threshold check"
+          fi
+
+      - name: Upload Vue coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vue-coverage
+          path: web/coverage/
+          retention-days: 30
+
+      - name: Upload Vue coverage to Codecov (optional)
+        uses: codecov/codecov-action@v4
+        if: github.event_name == 'push'
+        with:
+          directory: ./web/coverage
+          flags: vue
+          name: vue-coverage
+        continue-on-error: true
+
+  test-summary:
+    name: Test Summary
+    runs-on: ubuntu-latest
+    needs: [test-go, test-vue]
+    if: always()
+
+    steps:
+      - name: Check test results
+        run: |
+          echo "## Test Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ needs.test-go.result }}" == "success" ]; then
+            echo "✅ Go tests passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Go tests failed" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.test-vue.result }}" == "success" ]; then
+            echo "✅ Vue tests passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Vue tests failed" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # Fail if any test job failed
+          if [ "${{ needs.test-go.result }}" != "success" ] || [ "${{ needs.test-vue.result }}" != "success" ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "❌ Some tests failed. Please check the logs above." >> $GITHUB_STEP_SUMMARY
+            exit 1
+          else
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "✅ All tests passed!" >> $GITHUB_STEP_SUMMARY
+          fi

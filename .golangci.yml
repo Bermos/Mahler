@@ -33,10 +33,6 @@ linters-settings:
   gocyclo:
     min-complexity: 15
 
-  govet:
-    enable:
-      - shadow
-
   misspell:
     locale: US
 
@@ -72,7 +68,7 @@ linters-settings:
 
   gosec:
     excludes:
-      - G104  # Allow some unhandled errors (overlap with errcheck)
+      - G104
 
 issues:
   exclude-rules:
@@ -87,7 +83,7 @@ issues:
         - revive
         - staticcheck
 
-    # Exclude testutil package from strict linting (mocks don't need comments)
+    # Exclude testutil package from strict linting
     - path: internal/testutil/.*\.go$
       linters:
         - dupl
@@ -101,8 +97,5 @@ issues:
         - revive
       text: "package-comments"
 
-  # Maximum issues count per one linter
   max-issues-per-linter: 0
-
-  # Maximum count of issues with the same text
   max-same-issues: 0

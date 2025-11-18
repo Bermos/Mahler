@@ -42,7 +42,7 @@
   - **Deliverable:** `internal/app/app_test.go` with 95%+ coverage
   - **Tests:** N/A (this creates the testing foundation)
 
-- [ ] **0.1.2** Set up Vue/Vitest testing framework
+- [x] **0.1.2** Set up Vue/Vitest testing framework
   - Install Vitest and testing utilities (`@vue/test-utils`)
   - Configure `vitest.config.js`
   - Create example component tests

@@ -1,1 +1,10 @@
 coverage.out
+
+# Binaries
+mahler
+mahler.exe
+
+# Vue build output
+web/dist/
+web/coverage/
+web/node_modules/

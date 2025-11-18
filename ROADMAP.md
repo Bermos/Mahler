@@ -49,7 +49,7 @@
   - **Deliverable:** `web/src/components/ArchitectureCanvas.spec.js` with 80%+ coverage
   - **Tests:** N/A (this creates the testing foundation)
 
-- [ ] **0.1.3** Add test coverage enforcement
+- [x] **0.1.3** Add test coverage enforcement
   - Create `scripts/check-coverage.sh`
   - Configure minimum coverage thresholds
   - **Deliverable:** Script that fails if coverage < 95% (Go) or < 80% (Vue)

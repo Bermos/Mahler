@@ -94,10 +94,10 @@ func TestApp_ListProjects(t *testing.T) {
 
 func TestApp_ListProjects_Context(t *testing.T) {
 	tests := []struct {
-		name           string
-		setupContext   func(t *testing.T) context.Context
-		expectNoError  bool
-		description    string
+		name          string
+		setupContext  func(t *testing.T) context.Context
+		expectNoError bool
+		description   string
 	}{
 		{
 			name: "works_with_background_context",

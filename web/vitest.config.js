@@ -12,13 +12,7 @@ export default mergeConfig(
       coverage: {
         provider: 'v8',
         reporter: ['text', 'json', 'html', 'lcov'],
-        exclude: [
-          'node_modules/',
-          'dist/',
-          '**/*.config.js',
-          '**/*.spec.js',
-          'src/main.js',
-        ],
+        exclude: ['node_modules/', 'dist/', '**/*.config.js', '**/*.spec.js', 'src/main.js'],
         lines: 80,
         functions: 80,
         branches: 80,

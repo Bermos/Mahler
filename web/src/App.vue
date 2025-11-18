@@ -1,11 +1,9 @@
 <script setup>
-import ArchitectureCanvas from "@/components/ArchitectureCanvas.vue";
+import ArchitectureCanvas from '@/components/ArchitectureCanvas.vue'
 </script>
 
 <template>
-    <ArchitectureCanvas />
+  <ArchitectureCanvas />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
